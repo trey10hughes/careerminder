@@ -117,3 +117,16 @@ export const updateUserTitle = (uid, title) => {
 		}
 	}
 }
+
+export const uploadUserResume = (file) => {
+	
+	return async (dispatch, getState) => {
+		try {
+			console.log("uploadUserResume")
+			console.log(file)
+
+		} catch (e) {
+			alert(e)
+		}
+	}
+}

@@ -3,7 +3,8 @@ import { View, TextInput, StyleSheet, TouchableOpacity, Text, Button } from 'rea
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Firebase from '../config/Firebase'
-import { updateTitle, updateUserTitle } from '../actions/user'
+import { updateTitle, updateUserTitle, uploadUserResume } from '../actions/user'
+import * as DocumentPicker from 'expo-document-picker';
 
 class Profile extends React.Component {
 	handleSignout = () => {
@@ -14,6 +15,15 @@ class Profile extends React.Component {
 	handleTitleUpdate = () => {
 		console.log(this.props.user.uid)
 		this.props.updateUserTitle(this.props.user.uid, this.props.user.title)
+	}
+
+	handleResumeUpload = async () => {
+		console.log("handleResumeUpload")
+		let result = await DocumentPicker.getDocumentAsync({});
+		if (result.type == 'success'){
+			this.props.uploadUserResume(result)
+		}
+		
 	}
 
 	render() {
@@ -31,6 +41,9 @@ class Profile extends React.Component {
 				/>
 				<TouchableOpacity style={styles.button} onPress={this.handleTitleUpdate}>
 					<Text style={styles.buttonText}>Update Title</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button} onPress={this.handleResumeUpload}>
+					<Text style={styles.buttonText}>Upload Resume</Text>
 				</TouchableOpacity>
 			</View>
 				
@@ -76,7 +89,7 @@ const styles = StyleSheet.create({
 })
 
 const mapDispatchToProps = dispatch => {
-	return bindActionCreators({ updateTitle, updateUserTitle }, dispatch)
+	return bindActionCreators({ updateTitle, updateUserTitle, uploadUserResume }, dispatch)
 }
 
 const mapStateToProps = state => {
