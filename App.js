@@ -54,7 +54,7 @@ export default props => {
   };
 
  function _handleFinishLoading() {
-    setLoading(true);
+    // setLoading(true);
   };
 
   if(!fontsLoaded && !isLoadingComplete) {

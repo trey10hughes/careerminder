@@ -15,6 +15,7 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
+import Resumes from "../screens/Resumes";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -114,6 +115,21 @@ function ProfileStack(props) {
         }}
       />
             <Stack.Screen
+        name="Resumes"
+        component={Resumes}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+            title="Resumes"
+            back
+            options
+            navigation={navigation}
+            scene={scene}
+            />
+          )
+        }}
+      />
+      <Stack.Screen
         name="Pro"
         component={Pro}
         options={{

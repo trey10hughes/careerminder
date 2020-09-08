@@ -46,9 +46,29 @@ const SearchButton = ({isWhite, style, navigation}) => (
 );
 
 class Header extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: "" 
+    };
+  }
+  componentDidMount = async () => {
+    ("componentDidMount()")
+    console.log(this.props.title)
+    this.state.title = this.props.title
+  }
+
   handleLeftPress = () => {
     const { back, navigation } = this.props;
-    return (back ? navigation.goBack() : navigation.openDrawer());
+    console.log("left side pressed, logging state")
+    console.log(this.state.title)
+    if (this.state.title === "Resumes") {
+      return (back ? navigation.goBack() : navigation.goBack());
+    } else {
+      return (back ? navigation.goBack() : navigation.openDrawer());
+    }
+    
   }
   renderRight = () => {
     const { white, title, navigation } = this.props;
@@ -127,13 +147,13 @@ class Header extends React.Component {
         <Button shadowless style={[styles.tab, styles.divider]} onPress={() => navigation.navigate('Pro')}>
           <Block row middle>
             <Icon name="diamond" family="ArgonExtra" style={{ paddingRight: 8 }} color={argonTheme.COLORS.ICON} />
-            <Text size={16} style={styles.tabTitle}>{optionLeft || 'Beauty'}</Text>
+            <Text size={16} style={styles.tabTitle}>{optionLeft || 'Resumes'}</Text>
           </Block>
         </Button>
         <Button shadowless style={styles.tab} onPress={() => navigation.navigate('Pro')}>
           <Block row middle>
             <Icon size={16} name="bag-17" family="ArgonExtra" style={{ paddingRight: 8 }} color={argonTheme.COLORS.ICON}/>
-            <Text size={16} style={styles.tabTitle}>{optionRight || 'Fashion'}</Text>
+            <Text size={16} style={styles.tabTitle}>{optionRight || 'Documents'}</Text>
           </Block>
         </Button>
       </Block>
@@ -153,20 +173,20 @@ class Header extends React.Component {
     )
   }
   renderHeader = () => {
-    const { search, options, tabs } = this.props;
+    const { title, search, options, tabs } = this.props;
+    
     if (search || tabs || options) {
-      return (
-        <Block center>
-          {search ? this.renderSearch() : null}
-          {options ? this.renderOptions() : null}
-          {tabs ? this.renderTabs() : null}
-        </Block>
-      );
+        return (
+          <Block style={styles.backgroundHeader} center>
+            {search ? this.renderSearch() : null}
+            {options ? this.renderOptions() : null}
+            {tabs ? this.renderTabs() : null}
+          </Block>
+        );
     }
   }
   render() {
     const { back, title, white, transparent, bgColor, iconColor, titleColor, navigation, ...props } = this.props;
-
     const noShadow = ['Search', 'Categories', 'Deals', 'Pro', 'Profile'].includes(title);
     const headerStyles = [
       !noShadow ? styles.shadow : null,
@@ -177,7 +197,7 @@ class Header extends React.Component {
       styles.navbar,
       bgColor && { backgroundColor: bgColor }
     ];
-
+    
     return (
       <Block style={headerStyles}>
         <NavBar
@@ -211,6 +231,10 @@ class Header extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundHeader: {
+    backgroundColor: theme.COLORS.WHITE,
+    width: '100%'
+  },
   button: {
     padding: 12,
     position: 'relative',
@@ -259,9 +283,9 @@ const styles = StyleSheet.create({
     borderColor: argonTheme.COLORS.BORDER
   },
   options: {
-    marginBottom: 24,
-    marginTop: 10,
-    elevation: 4,
+    backgroundColor: theme.COLORS.WHITE,
+    marginBottom: 8,
+    marginTop: 4
   },
   tab: {
     backgroundColor: theme.COLORS.TRANSPARENT,
